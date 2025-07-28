@@ -25689,6 +25689,15 @@ export function createTypeChecker(host: TypeCheckerHost): TypeChecker {
             neverType;
     }
 
+    function getDefinitelyFalsyPartOfConstraint(typeParameter: TypeParameter): Type {
+        const constraint = getConstraintOfTypeParameter(typeParameter);
+        if (constraint) {
+            const constraintFalsyPart = getDefinitelyFalsyPartOfType(constraint);
+            return constraintFalsyPart !== neverType ? constraintFalsyPart : typeParameter;
+        }
+        return typeParameter;
+    }
+
     /**
      * Add undefined or null or both to a type if they are missing.
      * @param type - type to add undefined and/or null to if not present
