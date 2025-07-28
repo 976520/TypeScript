@@ -606,10 +606,10 @@ function fx1<T, K extends keyof T>(obj: T, key: K) {
 >    : ^
 
     const x2 = obj && obj[key];
->x2 : NonNullable<T>[K]
->   : ^^^^^^^^^^^^^^^^^
->obj && obj[key] : NonNullable<T>[K]
->                : ^^^^^^^^^^^^^^^^^
+>x2 : T | NonNullable<T>[K]
+>   : ^^^^^^^^^^^^^^^^^^^^^
+>obj && obj[key] : T | NonNullable<T>[K]
+>                : ^^^^^^^^^^^^^^^^^^^^^
 >obj : T
 >    : ^
 >obj[key] : NonNullable<T>[K]
@@ -639,10 +639,10 @@ function fx2<T extends Record<keyof T, string>, K extends keyof T>(obj: T, key: 
 >    : ^
 
     const x2 = obj && obj[key];
->x2 : T[K]
->   : ^^^^
->obj && obj[key] : T[K]
->                : ^^^^
+>x2 : T | T[K]
+>   : ^^^^^^^^
+>obj && obj[key] : T | T[K]
+>                : ^^^^^^^^
 >obj : T
 >    : ^
 >obj[key] : T[K]
@@ -672,10 +672,10 @@ function fx3<T extends Record<keyof T, string> | undefined, K extends keyof T>(o
 >    : ^
 
     const x2 = obj && obj[key];
->x2 : Record<keyof T, string>[K]
->   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
->obj && obj[key] : Record<keyof T, string>[K]
->                : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+>x2 : T | Record<keyof T, string>[K]
+>   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>obj && obj[key] : T | Record<keyof T, string>[K]
+>                : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 >obj : T
 >    : ^
 >obj[key] : Record<keyof T, string>[K]

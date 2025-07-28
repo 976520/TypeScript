@@ -1,0 +1,203 @@
+//// [tests/cases/conformance/types/typeRelationships/typeInference/genericLogicalAndInference.ts] ////
+
+=== genericLogicalAndInference.ts ===
+// Repro from #62133
+
+function test1<T>(x: T) {
+>test1 : <T>(x: T) => T
+>      : ^ ^^ ^^ ^^^^^^
+>x : T
+>  : ^
+
+    var r1 = x && x;
+>r1 : T
+>   : ^
+>x && x : T
+>       : ^
+>x : T
+>  : ^
+>x : T
+>  : ^
+
+    return r1;
+>r1 : T
+>   : ^
+}
+
+function test2<T extends string | null>(x: T) {
+>test2 : <T extends string | null>(x: T) => "" | T
+>      : ^ ^^^^^^^^^             ^^ ^^ ^^^^^^^^^^^
+>x : T
+>  : ^
+
+    var r2 = x && x;
+>r2 : "" | T
+>   : ^^^^^^
+>x && x : "" | T
+>       : ^^^^^^
+>x : T
+>  : ^
+>x : T
+>  : ^
+
+    return r2;
+>r2 : "" | T
+>   : ^^^^^^
+}
+
+function test3<T extends object>(x: T) {
+>test3 : <T extends object>(x: T) => T
+>      : ^ ^^^^^^^^^      ^^ ^^ ^^^^^^
+>x : T
+>  : ^
+
+    var r3 = x && x;
+>r3 : T
+>   : ^
+>x && x : T
+>       : ^
+>x : T
+>  : ^
+>x : T
+>  : ^
+
+    return r3;
+>r3 : T
+>   : ^
+}
+
+function test4<T>(x: T, y: string) {
+>test4 : <T>(x: T, y: string) => string
+>      : ^ ^^ ^^ ^^ ^^      ^^^^^^^^^^^
+>x : T
+>  : ^
+>y : string
+>  : ^^^^^^
+
+    var r4 = x && y;
+>r4 : string
+>   : ^^^^^^
+>x && y : string
+>       : ^^^^^^
+>x : T
+>  : ^
+>y : string
+>  : ^^^^^^
+
+    return r4;
+>r4 : string
+>   : ^^^^^^
+}
+
+var r1 = test1("hello");
+>r1 : string
+>   : ^^^^^^
+>test1("hello") : "hello"
+>               : ^^^^^^^
+>test1 : <T>(x: T) => T
+>      : ^ ^^ ^^ ^^^^^^
+>"hello" : "hello"
+>        : ^^^^^^^
+
+var r2 = test1(null);
+>r2 : any
+>   : ^^^
+>test1(null) : any
+>            : ^^^
+>test1 : <T>(x: T) => T
+>      : ^ ^^ ^^ ^^^^^^
+
+var r3 = test1(undefined);
+>r3 : any
+>   : ^^^
+>test1(undefined) : any
+>                 : ^^^
+>test1 : <T>(x: T) => T
+>      : ^ ^^ ^^ ^^^^^^
+>undefined : undefined
+>          : ^^^^^^^^^
+
+var r4 = test1(42);
+>r4 : number
+>   : ^^^^^^
+>test1(42) : 42
+>          : ^^
+>test1 : <T>(x: T) => T
+>      : ^ ^^ ^^ ^^^^^^
+>42 : 42
+>   : ^^
+
+var r5 = test2("test");
+>r5 : "" | "test"
+>   : ^^^^^^^^^^^
+>test2("test") : "" | "test"
+>              : ^^^^^^^^^^^
+>test2 : <T extends string | null>(x: T) => "" | T
+>      : ^ ^^^^^^^^^             ^^ ^^ ^^^^^^^^^^^
+>"test" : "test"
+>       : ^^^^^^
+
+var r6 = test2(null);
+>r6 : any
+>   : ^^^
+>test2(null) : any
+>            : ^^^
+>test2 : <T extends string | null>(x: T) => "" | T
+>      : ^ ^^^^^^^^^             ^^ ^^ ^^^^^^^^^^^
+
+var r7 = test3({a: 1});
+>r7 : { a: number; }
+>   : ^^^^^^^^^^^^^^
+>test3({a: 1}) : { a: number; }
+>              : ^^^^^^^^^^^^^^
+>test3 : <T extends object>(x: T) => T
+>      : ^ ^^^^^^^^^      ^^ ^^ ^^^^^^
+>{a: 1} : { a: number; }
+>       : ^^^^^^^^^^^^^^
+>a : number
+>  : ^^^^^^
+>1 : 1
+>  : ^
+
+var r8 = test4(null, "hello");
+>r8 : string
+>   : ^^^^^^
+>test4(null, "hello") : string
+>                     : ^^^^^^
+>test4 : <T>(x: T, y: string) => string
+>      : ^ ^^ ^^ ^^ ^^      ^^^^^^^^^^^
+>"hello" : "hello"
+>        : ^^^^^^^
+
+var f1: <T>(x: T) => T = <T>(x: T) => x && x;
+>f1 : <T>(x: T) => T
+>   : ^ ^^ ^^ ^^^^^ 
+>x : T
+>  : ^
+><T>(x: T) => x && x : <T>(x: T) => T
+>                    : ^ ^^ ^^ ^^^^^^
+>x : T
+>  : ^
+>x && x : T
+>       : ^
+>x : T
+>  : ^
+>x : T
+>  : ^
+
+var f2: <T extends string | null>(x: T) => T = <T extends string | null>(x: T) => x && x;
+>f2 : <T extends string | null>(x: T) => T
+>   : ^ ^^^^^^^^^             ^^ ^^ ^^^^^ 
+>x : T
+>  : ^
+><T extends string | null>(x: T) => x && x : <T extends string | null>(x: T) => "" | T
+>                                          : ^ ^^^^^^^^^             ^^ ^^ ^^^^^^^^^^^
+>x : T
+>  : ^
+>x && x : "" | T
+>       : ^^^^^^
+>x : T
+>  : ^
+>x : T
+>  : ^
+

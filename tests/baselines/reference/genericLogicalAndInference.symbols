@@ -1,0 +1,124 @@
+//// [tests/cases/conformance/types/typeRelationships/typeInference/genericLogicalAndInference.ts] ////
+
+=== genericLogicalAndInference.ts ===
+// Repro from #62133
+
+function test1<T>(x: T) {
+>test1 : Symbol(test1, Decl(genericLogicalAndInference.ts, 0, 0))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 2, 15))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 2, 18))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 2, 15))
+
+    var r1 = x && x;
+>r1 : Symbol(r1, Decl(genericLogicalAndInference.ts, 3, 7))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 2, 18))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 2, 18))
+
+    return r1;
+>r1 : Symbol(r1, Decl(genericLogicalAndInference.ts, 3, 7))
+}
+
+function test2<T extends string | null>(x: T) {
+>test2 : Symbol(test2, Decl(genericLogicalAndInference.ts, 5, 1))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 7, 15))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 7, 40))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 7, 15))
+
+    var r2 = x && x;
+>r2 : Symbol(r2, Decl(genericLogicalAndInference.ts, 8, 7))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 7, 40))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 7, 40))
+
+    return r2;
+>r2 : Symbol(r2, Decl(genericLogicalAndInference.ts, 8, 7))
+}
+
+function test3<T extends object>(x: T) {
+>test3 : Symbol(test3, Decl(genericLogicalAndInference.ts, 10, 1))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 12, 15))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 12, 33))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 12, 15))
+
+    var r3 = x && x;
+>r3 : Symbol(r3, Decl(genericLogicalAndInference.ts, 13, 7))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 12, 33))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 12, 33))
+
+    return r3;
+>r3 : Symbol(r3, Decl(genericLogicalAndInference.ts, 13, 7))
+}
+
+function test4<T>(x: T, y: string) {
+>test4 : Symbol(test4, Decl(genericLogicalAndInference.ts, 15, 1))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 17, 15))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 17, 18))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 17, 15))
+>y : Symbol(y, Decl(genericLogicalAndInference.ts, 17, 23))
+
+    var r4 = x && y;
+>r4 : Symbol(r4, Decl(genericLogicalAndInference.ts, 18, 7))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 17, 18))
+>y : Symbol(y, Decl(genericLogicalAndInference.ts, 17, 23))
+
+    return r4;
+>r4 : Symbol(r4, Decl(genericLogicalAndInference.ts, 18, 7))
+}
+
+var r1 = test1("hello");
+>r1 : Symbol(r1, Decl(genericLogicalAndInference.ts, 22, 3))
+>test1 : Symbol(test1, Decl(genericLogicalAndInference.ts, 0, 0))
+
+var r2 = test1(null);
+>r2 : Symbol(r2, Decl(genericLogicalAndInference.ts, 23, 3))
+>test1 : Symbol(test1, Decl(genericLogicalAndInference.ts, 0, 0))
+
+var r3 = test1(undefined);
+>r3 : Symbol(r3, Decl(genericLogicalAndInference.ts, 24, 3))
+>test1 : Symbol(test1, Decl(genericLogicalAndInference.ts, 0, 0))
+>undefined : Symbol(undefined)
+
+var r4 = test1(42);
+>r4 : Symbol(r4, Decl(genericLogicalAndInference.ts, 25, 3))
+>test1 : Symbol(test1, Decl(genericLogicalAndInference.ts, 0, 0))
+
+var r5 = test2("test");
+>r5 : Symbol(r5, Decl(genericLogicalAndInference.ts, 27, 3))
+>test2 : Symbol(test2, Decl(genericLogicalAndInference.ts, 5, 1))
+
+var r6 = test2(null);
+>r6 : Symbol(r6, Decl(genericLogicalAndInference.ts, 28, 3))
+>test2 : Symbol(test2, Decl(genericLogicalAndInference.ts, 5, 1))
+
+var r7 = test3({a: 1});
+>r7 : Symbol(r7, Decl(genericLogicalAndInference.ts, 30, 3))
+>test3 : Symbol(test3, Decl(genericLogicalAndInference.ts, 10, 1))
+>a : Symbol(a, Decl(genericLogicalAndInference.ts, 30, 16))
+
+var r8 = test4(null, "hello");
+>r8 : Symbol(r8, Decl(genericLogicalAndInference.ts, 32, 3))
+>test4 : Symbol(test4, Decl(genericLogicalAndInference.ts, 15, 1))
+
+var f1: <T>(x: T) => T = <T>(x: T) => x && x;
+>f1 : Symbol(f1, Decl(genericLogicalAndInference.ts, 34, 3))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 34, 9))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 34, 12))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 34, 9))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 34, 9))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 34, 26))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 34, 29))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 34, 26))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 34, 29))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 34, 29))
+
+var f2: <T extends string | null>(x: T) => T = <T extends string | null>(x: T) => x && x;
+>f2 : Symbol(f2, Decl(genericLogicalAndInference.ts, 35, 3))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 35, 9))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 35, 34))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 35, 9))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 35, 9))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 35, 48))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 35, 73))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 35, 48))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 35, 73))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 35, 73))
+

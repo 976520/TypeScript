@@ -931,8 +931,8 @@ function f3<T>(x: T) {
 >  : ^^^^^^^
     }
     if (x && "a" in x) {
->x && "a" in x : boolean
->              : ^^^^^^^
+>x && "a" in x : boolean | T
+>              : ^^^^^^^^^^^
 >x : T
 >  : ^
 >"a" in x : boolean
@@ -951,10 +951,10 @@ function f3<T>(x: T) {
 >  : ^^^^^^^
     }
     if (x && typeof x === "object" && "a" in x) {
->x && typeof x === "object" && "a" in x : boolean
->                                       : ^^^^^^^
->x && typeof x === "object" : boolean
->                           : ^^^^^^^
+>x && typeof x === "object" && "a" in x : boolean | T
+>                                       : ^^^^^^^^^^^
+>x && typeof x === "object" : boolean | T
+>                           : ^^^^^^^^^^^
 >x : T
 >  : ^
 >typeof x === "object" : boolean
@@ -981,14 +981,14 @@ function f3<T>(x: T) {
 >  : ^^^^^^^
     }
     if (x && typeof x === "object" && "a" in x && "b" in x && "c" in x) {
->x && typeof x === "object" && "a" in x && "b" in x && "c" in x : boolean
->                                                               : ^^^^^^^
->x && typeof x === "object" && "a" in x && "b" in x : boolean
->                                                   : ^^^^^^^
->x && typeof x === "object" && "a" in x : boolean
->                                       : ^^^^^^^
->x && typeof x === "object" : boolean
->                           : ^^^^^^^
+>x && typeof x === "object" && "a" in x && "b" in x && "c" in x : boolean | T
+>                                                               : ^^^^^^^^^^^
+>x && typeof x === "object" && "a" in x && "b" in x : boolean | T
+>                                                   : ^^^^^^^^^^^
+>x && typeof x === "object" && "a" in x : boolean | T
+>                                       : ^^^^^^^^^^^
+>x && typeof x === "object" : boolean | T
+>                           : ^^^^^^^^^^^
 >x : T
 >  : ^
 >typeof x === "object" : boolean

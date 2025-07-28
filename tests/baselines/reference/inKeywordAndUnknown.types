@@ -121,16 +121,16 @@ function f1(x: unknown) {
 }
 
 function f2<T>(x: T) {
->f2 : <T>(x: T) => x is T & Object & Record<"a", unknown>
->   : ^ ^^ ^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>f2 : <T>(x: T) => boolean | T
+>   : ^ ^^ ^^ ^^^^^^^^^^^^^^^^
 >x : T
 >  : ^
 
     return x && x instanceof Object && 'a' in x;
->x && x instanceof Object && 'a' in x : boolean
->                                     : ^^^^^^^
->x && x instanceof Object : boolean
->                         : ^^^^^^^
+>x && x instanceof Object && 'a' in x : boolean | T
+>                                     : ^^^^^^^^^^^
+>x && x instanceof Object : boolean | T
+>                         : ^^^^^^^^^^^
 >x : T
 >  : ^
 >x instanceof Object : boolean

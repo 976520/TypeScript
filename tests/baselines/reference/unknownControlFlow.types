@@ -561,8 +561,8 @@ function f31<T>(x: T) {
 >  : ^^^^^^^^^^^^^^^^^^^^^^^^^
     }
     if (x && typeof x === "object") {
->x && typeof x === "object" : boolean
->                           : ^^^^^^^
+>x && typeof x === "object" : boolean | T
+>                           : ^^^^^^^^^^^
 >x : T
 >  : ^
 >typeof x === "object" : boolean
