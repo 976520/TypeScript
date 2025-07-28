@@ -25680,6 +25680,7 @@ export function createTypeChecker(host: TypeCheckerHost): TypeChecker {
         return type.flags & TypeFlags.String ? emptyStringType :
             type.flags & TypeFlags.Number ? zeroType :
             type.flags & TypeFlags.BigInt ? zeroBigIntType :
+            type.flags & TypeFlags.TypeParameter ? getDefinitelyFalsyPartOfConstraint(type as TypeParameter) :
             type === regularFalseType ||
                 type === falseType ||
                 type.flags & (TypeFlags.Void | TypeFlags.Undefined | TypeFlags.Null | TypeFlags.AnyOrUnknown) ||
