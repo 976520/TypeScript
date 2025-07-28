@@ -101,17 +101,13 @@ var r1 = test1("hello");
 
 var r2 = test1(null);
 >r2 : any
->   : ^^^
 >test1(null) : any
->            : ^^^
 >test1 : <T>(x: T) => T
 >      : ^ ^^ ^^ ^^^^^^
 
 var r3 = test1(undefined);
 >r3 : any
->   : ^^^
 >test1(undefined) : any
->                 : ^^^
 >test1 : <T>(x: T) => T
 >      : ^ ^^ ^^ ^^^^^^
 >undefined : undefined
@@ -139,9 +135,7 @@ var r5 = test2("test");
 
 var r6 = test2(null);
 >r6 : any
->   : ^^^
 >test2(null) : any
->            : ^^^
 >test2 : <T extends string | null>(x: T) => "" | T
 >      : ^ ^^^^^^^^^             ^^ ^^ ^^^^^^^^^^^
 
@@ -169,11 +163,9 @@ var r8 = test4(null, "hello");
 >"hello" : "hello"
 >        : ^^^^^^^
 
-var f1: <T>(x: T) => T = <T>(x: T) => x && x;
+var f1 = <T>(x: T) => x && x;
 >f1 : <T>(x: T) => T
->   : ^ ^^ ^^ ^^^^^ 
->x : T
->  : ^
+>   : ^ ^^ ^^ ^^^^^^
 ><T>(x: T) => x && x : <T>(x: T) => T
 >                    : ^ ^^ ^^ ^^^^^^
 >x : T
@@ -185,11 +177,9 @@ var f1: <T>(x: T) => T = <T>(x: T) => x && x;
 >x : T
 >  : ^
 
-var f2: <T extends string | null>(x: T) => T = <T extends string | null>(x: T) => x && x;
->f2 : <T extends string | null>(x: T) => T
->   : ^ ^^^^^^^^^             ^^ ^^ ^^^^^ 
->x : T
->  : ^
+var f2 = <T extends string | null>(x: T) => x && x;
+>f2 : <T extends string | null>(x: T) => "" | T
+>   : ^ ^^^^^^^^^             ^^ ^^ ^^^^^^^^^^^
 ><T extends string | null>(x: T) => x && x : <T extends string | null>(x: T) => "" | T
 >                                          : ^ ^^^^^^^^^             ^^ ^^ ^^^^^^^^^^^
 >x : T
@@ -200,4 +190,54 @@ var f2: <T extends string | null>(x: T) => T = <T extends string | null>(x: T) =
 >  : ^
 >x : T
 >  : ^
+
+var f3 = <T extends undefined>(x: (() => void) | T) => x && (() => x());
+>f3 : <T extends undefined>(x: (() => void) | T) => () => void
+>   : ^ ^^^^^^^^^         ^^ ^^                ^^^^^^^^^^^^^^^
+><T extends undefined>(x: (() => void) | T) => x && (() => x()) : <T extends undefined>(x: (() => void) | T) => () => void
+>                                                               : ^ ^^^^^^^^^         ^^ ^^                ^^^^^^^^^^^^^^^
+>x : T | (() => void)
+>  : ^^^^^^^^^^^    ^
+>x && (() => x()) : () => void
+>                 : ^^^^^^^^^^
+>x : T | (() => void)
+>  : ^^^^^^^^^^^    ^
+>(() => x()) : () => void
+>            : ^^^^^^^^^^
+>() => x() : () => void
+>          : ^^^^^^^^^^
+>x() : void
+>    : ^^^^
+>x : () => void
+>  : ^^^^^^    
+
+var f4 = <T extends undefined, U extends undefined>(x: (() => void) | T, y: (() => void) | U) => x && y && (() => { x(); y() });
+>f4 : <T extends undefined, U extends undefined>(x: (() => void) | T, y: (() => void) | U) => () => void
+>   : ^ ^^^^^^^^^         ^^ ^^^^^^^^^         ^^ ^^                ^^ ^^                ^^^^^^^^^^^^^^^
+><T extends undefined, U extends undefined>(x: (() => void) | T, y: (() => void) | U) => x && y && (() => { x(); y() }) : <T extends undefined, U extends undefined>(x: (() => void) | T, y: (() => void) | U) => () => void
+>                                                                                                                       : ^ ^^^^^^^^^         ^^ ^^^^^^^^^         ^^ ^^                ^^ ^^                ^^^^^^^^^^^^^^^
+>x : T | (() => void)
+>  : ^^^^^^^^^^^    ^
+>y : U | (() => void)
+>  : ^^^^^^^^^^^    ^
+>x && y && (() => { x(); y() }) : () => void
+>                               : ^^^^^^^^^^
+>x && y : U | (() => void)
+>       : ^^^^^^^^^^^    ^
+>x : T | (() => void)
+>  : ^^^^^^^^^^^    ^
+>y : U | (() => void)
+>  : ^^^^^^^^^^^    ^
+>(() => { x(); y() }) : () => void
+>                     : ^^^^^^^^^^
+>() => { x(); y() } : () => void
+>                   : ^^^^^^^^^^
+>x() : void
+>    : ^^^^
+>x : () => void
+>  : ^^^^^^    
+>y() : void
+>    : ^^^^
+>y : () => void
+>  : ^^^^^^    
 

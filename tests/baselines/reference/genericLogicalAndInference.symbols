@@ -98,27 +98,40 @@ var r8 = test4(null, "hello");
 >r8 : Symbol(r8, Decl(genericLogicalAndInference.ts, 32, 3))
 >test4 : Symbol(test4, Decl(genericLogicalAndInference.ts, 15, 1))
 
-var f1: <T>(x: T) => T = <T>(x: T) => x && x;
+var f1 = <T>(x: T) => x && x;
 >f1 : Symbol(f1, Decl(genericLogicalAndInference.ts, 34, 3))
->T : Symbol(T, Decl(genericLogicalAndInference.ts, 34, 9))
->x : Symbol(x, Decl(genericLogicalAndInference.ts, 34, 12))
->T : Symbol(T, Decl(genericLogicalAndInference.ts, 34, 9))
->T : Symbol(T, Decl(genericLogicalAndInference.ts, 34, 9))
->T : Symbol(T, Decl(genericLogicalAndInference.ts, 34, 26))
->x : Symbol(x, Decl(genericLogicalAndInference.ts, 34, 29))
->T : Symbol(T, Decl(genericLogicalAndInference.ts, 34, 26))
->x : Symbol(x, Decl(genericLogicalAndInference.ts, 34, 29))
->x : Symbol(x, Decl(genericLogicalAndInference.ts, 34, 29))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 34, 10))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 34, 13))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 34, 10))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 34, 13))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 34, 13))
 
-var f2: <T extends string | null>(x: T) => T = <T extends string | null>(x: T) => x && x;
+var f2 = <T extends string | null>(x: T) => x && x;
 >f2 : Symbol(f2, Decl(genericLogicalAndInference.ts, 35, 3))
->T : Symbol(T, Decl(genericLogicalAndInference.ts, 35, 9))
->x : Symbol(x, Decl(genericLogicalAndInference.ts, 35, 34))
->T : Symbol(T, Decl(genericLogicalAndInference.ts, 35, 9))
->T : Symbol(T, Decl(genericLogicalAndInference.ts, 35, 9))
->T : Symbol(T, Decl(genericLogicalAndInference.ts, 35, 48))
->x : Symbol(x, Decl(genericLogicalAndInference.ts, 35, 73))
->T : Symbol(T, Decl(genericLogicalAndInference.ts, 35, 48))
->x : Symbol(x, Decl(genericLogicalAndInference.ts, 35, 73))
->x : Symbol(x, Decl(genericLogicalAndInference.ts, 35, 73))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 35, 10))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 35, 35))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 35, 10))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 35, 35))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 35, 35))
+
+var f3 = <T extends undefined>(x: (() => void) | T) => x && (() => x());
+>f3 : Symbol(f3, Decl(genericLogicalAndInference.ts, 37, 3))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 37, 10))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 37, 31))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 37, 10))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 37, 31))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 37, 31))
+
+var f4 = <T extends undefined, U extends undefined>(x: (() => void) | T, y: (() => void) | U) => x && y && (() => { x(); y() });
+>f4 : Symbol(f4, Decl(genericLogicalAndInference.ts, 38, 3))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 38, 10))
+>U : Symbol(U, Decl(genericLogicalAndInference.ts, 38, 30))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 38, 52))
+>T : Symbol(T, Decl(genericLogicalAndInference.ts, 38, 10))
+>y : Symbol(y, Decl(genericLogicalAndInference.ts, 38, 72))
+>U : Symbol(U, Decl(genericLogicalAndInference.ts, 38, 30))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 38, 52))
+>y : Symbol(y, Decl(genericLogicalAndInference.ts, 38, 72))
+>x : Symbol(x, Decl(genericLogicalAndInference.ts, 38, 52))
+>y : Symbol(y, Decl(genericLogicalAndInference.ts, 38, 72))
 

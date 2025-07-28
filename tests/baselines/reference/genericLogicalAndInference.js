@@ -35,8 +35,11 @@ var r7 = test3({a: 1});
 
 var r8 = test4(null, "hello");
 
-var f1: <T>(x: T) => T = <T>(x: T) => x && x;
-var f2: <T extends string | null>(x: T) => T = <T extends string | null>(x: T) => x && x;
+var f1 = <T>(x: T) => x && x;
+var f2 = <T extends string | null>(x: T) => x && x;
+
+var f3 = <T extends undefined>(x: (() => void) | T) => x && (() => x());
+var f4 = <T extends undefined, U extends undefined>(x: (() => void) | T, y: (() => void) | U) => x && y && (() => { x(); y() });
 
 
 //// [genericLogicalAndInference.js]
@@ -67,3 +70,5 @@ var r7 = test3({ a: 1 });
 var r8 = test4(null, "hello");
 var f1 = function (x) { return x && x; };
 var f2 = function (x) { return x && x; };
+var f3 = function (x) { return x && (function () { return x(); }); };
+var f4 = function (x, y) { return x && y && (function () { x(); y(); }); };
